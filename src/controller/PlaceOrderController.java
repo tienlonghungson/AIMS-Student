@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import entity.cart.Cart;
 import entity.cart.CartMedia;
@@ -83,18 +85,31 @@ public class PlaceOrderController extends BaseController{
     }
     
     public boolean validatePhoneNumber(String phoneNumber) {
-    	// TODO: your work
-    	return false;
+        if (phoneNumber.length()!=10){
+            return false;
+        }
+        if (!phoneNumber.startsWith("0")){
+            return false;
+        }
+        try{
+            Integer.parseInt(phoneNumber);
+        } catch (NumberFormatException numberFormatException){
+            return false;
+        }
+    	return true;
     }
     
     public boolean validateName(String name) {
-    	// TODO: your work
-    	return false;
+        // check special characters' appearance, numbers' appearance
+        Pattern checkPattern=Pattern.compile("[^a-zA-Z ]");
+        Matcher matcher = checkPattern.matcher(name);
+        return !matcher.find();
     }
     
     public boolean validateAddress(String address) {
-    	// TODO: your work
-    	return false;
+        Pattern checkPattern=Pattern.compile("[^a-zA-Z0-9/ ]");
+        Matcher matcher = checkPattern.matcher(address);
+        return !matcher.find();
     }
     
 
