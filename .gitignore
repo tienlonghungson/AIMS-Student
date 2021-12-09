@@ -6,3 +6,6 @@
 aims.session.sql
 *.ipynb
 test/notebook
+.idea
+out/
+AIMS-Student.iml
