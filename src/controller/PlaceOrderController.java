@@ -3,7 +3,6 @@ package controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -11,11 +10,9 @@ import java.util.regex.Pattern;
 
 import entity.cart.Cart;
 import entity.cart.CartMedia;
-import common.exception.InvalidDeliveryInfoException;
 import entity.invoice.Invoice;
 import entity.order.Order;
 import entity.order.OrderMedia;
-import views.screen.popup.PopupScreen;
 
 /**
  * This class controls the flow of place order usecase in our AIMS project
@@ -29,8 +26,8 @@ public class PlaceOrderController extends BaseController{
     private static Logger LOGGER = utils.Utils.getLogger(PlaceOrderController.class.getName());
 
     /**
-     * This method checks the avalibility of product when user click PlaceOrder button
-     * @throws SQLException
+     * This method checks the availability of product when user click PlaceOrder button
+     * @throws SQLException exception when call checkAvailabilityOfProduct()
      */
     public void placeOrder() throws SQLException{
         Cart.getCart().checkAvailabilityOfProduct();
@@ -39,23 +36,22 @@ public class PlaceOrderController extends BaseController{
     /**
      * This method creates the new Order based on the Cart
      * @return Order
-     * @throws SQLException
      */
-    public Order createOrder() throws SQLException{
+    public Order createOrder(){
         Order order = new Order();
         for (Object object : Cart.getCart().getListMedia()) {
             CartMedia cartMedia = (CartMedia) object;
             OrderMedia orderMedia = new OrderMedia(cartMedia.getMedia(), 
                                                    cartMedia.getQuantity(), 
                                                    cartMedia.getPrice());    
-            order.getlstOrderMedia().add(orderMedia);
+            order.getListOrderMedia().add(orderMedia);
         }
         return order;
     }
 
     /**
      * This method creates the new Invoice based on order
-     * @param order
+     * @param order order
      * @return Invoice
      */
     public Invoice createInvoice(Order order) {
@@ -64,9 +60,9 @@ public class PlaceOrderController extends BaseController{
 
     /**
      * This method takes responsibility for processing the shipping info from user
-     * @param info
-     * @throws InterruptedException
-     * @throws IOException
+     * @param info delivery information
+     * @throws InterruptedException exception when call validateDeliveryInfo()
+     * @throws IOException exception when call validateDeliveryInfo()
      */
     public void processDeliveryInfo(HashMap info) throws InterruptedException, IOException{
         LOGGER.info("Process Delivery Info");
@@ -76,9 +72,9 @@ public class PlaceOrderController extends BaseController{
     
     /**
    * The method validates the info
-   * @param info
-   * @throws InterruptedException
-   * @throws IOException
+   * @param info delivery information
+   * @throws InterruptedException exception when call validateDeliveryInfo()
+   * @throws IOException exception when call validateDeliveryInfo()
    */
     public void validateDeliveryInfo(HashMap<String, String> info) throws InterruptedException, IOException{
     	
@@ -115,7 +111,7 @@ public class PlaceOrderController extends BaseController{
 
     /**
      * This method calculates the shipping fees of order
-     * @param order
+     * @param order order
      * @return shippingFee
      */
     public int calculateShippingFee(Order order){

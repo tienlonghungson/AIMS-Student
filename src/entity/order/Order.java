@@ -9,31 +9,31 @@ import utils.Configs;
 public class Order {
     
     private int shippingFees;
-    private List lstOrderMedia;
+    private List listOrderMedia;
     private HashMap<String, String> deliveryInfo;
 
     public Order(){
-        this.lstOrderMedia = new ArrayList<>();
+        this.listOrderMedia = new ArrayList<>();
     }
 
     public Order(List lstOrderMedia) {
-        this.lstOrderMedia = lstOrderMedia;
+        this.listOrderMedia = lstOrderMedia;
     }
 
     public void addOrderMedia(OrderMedia om){
-        this.lstOrderMedia.add(om);
+        this.listOrderMedia.add(om);
     }
 
     public void removeOrderMedia(OrderMedia om){
-        this.lstOrderMedia.remove(om);
+        this.listOrderMedia.remove(om);
     }
 
-    public List getlstOrderMedia() {
-        return this.lstOrderMedia;
+    public List getListOrderMedia() {
+        return this.listOrderMedia;
     }
 
-    public void setlstOrderMedia(List lstOrderMedia) {
-        this.lstOrderMedia = lstOrderMedia;
+    public void setListOrderMedia(List lstOrderMedia) {
+        this.listOrderMedia = lstOrderMedia;
     }
 
     public void setShippingFees(int shippingFees) {
@@ -54,7 +54,7 @@ public class Order {
 
     public int getAmount(){
         double amount = 0;
-        for (Object object : lstOrderMedia) {
+        for (Object object : listOrderMedia) {
             OrderMedia om = (OrderMedia) object;
             amount += om.getPrice();
         }
